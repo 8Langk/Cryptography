@@ -46,8 +46,10 @@ sbox_inv = [
     [0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61],
     [0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d]
 ]
+rounds = 14 #AES-256 round
+nk = 8  #AES-256 rcon
 
-def gf_mul(a, b):
+def gf_mul(a, b): #GaluaField calculation
     p = 0
     for i in range(8):
         if b & 1:
@@ -59,10 +61,7 @@ def gf_mul(a, b):
         b >>= 1
     return p & 0xFF
 
-
-rounds = 14 #AES-256 round
-nk = 8  #AES-256
-def expand_round_key(key):
+def expand_round_key(key): #made key 4 * (round+1)
     w = [key[i:i+8] for i in range(0,len(key),8)]
     #print(round_keys)
     wIndex=8
@@ -70,8 +69,7 @@ def expand_round_key(key):
     #key_expansion
     while (wIndex < 4*(rounds+1)):        
         temp = w[wIndex-1]
-
-        
+   
         if wIndex % 8 == 0:
             rotWord= temp[2:]+temp[:2]
             subWord = ''.join([hex(sbox[int(rotWord[i], 16)][int(rotWord[i+1], 16)])[2:].zfill(2) for i in range(0, len(rotWord), 2)])
@@ -85,6 +83,7 @@ def expand_round_key(key):
             
         wIndex+=1
     return w
+        
 def transpose(state):
     pairs = [state[i:i+2] for i in range(0, len(state), 2)]
     m = [pairs[i:i+4] for i in range(0, len(pairs), 4)]
@@ -98,7 +97,6 @@ def made2array(state):
 def add_round_key(text, key):
     key = transpose(''.join(key))
     return hex(int(text,16)^int(key,16))[2:].zfill(32)
-    
 
 def subBytes(state):
     return ''.join([hex(sbox[int(state[i], 16)][int(state[i+1], 16)])[2:].zfill(2) for i in range(0, len(state), 2)])
@@ -157,22 +155,15 @@ def encrypt(plaintext, key):
     plaintext = transpose(plaintext)
     roundStart = add_round_key(plaintext, round_key[0:4])
     
-    #print("add : "+state)
     
     for roundIndex in range(1,rounds):
         substituteState = subBytes(roundStart)
-        #print("sub:"+state)
         shiftState = shiftRows(substituteState)
-        #print("shift:"+state)
         mixColumnState = mixColumns(shiftState)
-        #print("mixcol:"+state)
         roundStart = add_round_key(mixColumnState, round_key[roundIndex*4:(roundIndex+1)*4])
-        #print("add_round:"+state)
         
     substituteState = subBytes(roundStart)
-    #print(state)
     shiftState = shiftRows(substituteState)
-    #print(state)
     ciphertext= add_round_key(shiftState,round_key[4*(roundIndex+1):])
     
     return transpose(ciphertext)
@@ -197,11 +188,12 @@ def decrypt(ciphertext, key):
     return transpose(plaintext)
 
 
-plaintext = "00112233445566778899aabbccddeeff"
-key = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
-
-print("Plaintext : "+plaintext)
-encryption = encrypt(plaintext, key)
-print("AES-256 Encryption : "+encryption)
-decryption = decrypt(encryption, key)
-print("AES-256 Decryption : "+decryption)
+if __name__ == "__main__":
+    plaintext = "00112233445566778899aabbccddeeff" #16byte
+    key = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f" #32byte AES-256
+    
+    print("Plaintext : "+plaintext)
+    encryption = encrypt(plaintext, key)
+    print("AES-256 Encryption : "+encryption)
+    decryption = decrypt(encryption, key)
+    print("AES-256 Decryption : "+decryption)
