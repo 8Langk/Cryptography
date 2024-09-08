@@ -3,7 +3,7 @@
 Create code cryptographic algorithm directly with python 
 
 
-* Symmentric
+## Symmentric
 |Algoritm|ToDo|
 |------|---|
 |DES|O|
