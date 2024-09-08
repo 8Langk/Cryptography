@@ -42,6 +42,6 @@ Create code cryptographic algorithm directly with python
 |RIPEMD|Not Yet|
 
 ### Update log
-2024-09-05 Update DES
-2024-09-07 Update AES-256
-2024-09-08 Update SHA-256
+2024-09-05 Update DES<br/>
+2024-09-07 Update AES-256<br/>
+2024-09-08 Update SHA-256<br/>
