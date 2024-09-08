@@ -5,6 +5,7 @@ Create code cryptographic algorithm directly with python
 
 ## Symmentric
 
+### Block
 |Algoritm|ToDo|
 |------|---|
 |DES|O|
@@ -13,16 +14,24 @@ Create code cryptographic algorithm directly with python
 |ARIA|Not Yet|
 |IDEA|Not Yet|
 
+### Stream
+|Algoritm|ToDo|
+|------|---|
+|RC4|Not Yet|
+
 
 ## Asymmentric
 
 |Algoritm|ToDo|
 |------|---|
 |RSA|Not Yet|
-|Diffie-Hellman|Not Yet|
 |El-gammal|Not Yet|
 |ECC|Not Yet|
 
+### Key exchange
+|Algoritm|ToDo|
+|------|---|
+|Diffie-Hellman|Not Yet|
 
 ## Hash 
 |Algoritm|ToDo|
