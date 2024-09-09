@@ -11,7 +11,7 @@ Create code cryptographic algorithm directly with python
 |DES|O|
 |AES|O(AES-256)|
 |SEED|Not Yet|
-|ARIA|Not Yet|
+|ARIA|O(ARIA-256)|
 |IDEA|Not Yet|
 
 ### Stream
