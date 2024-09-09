@@ -46,3 +46,4 @@ Create code cryptographic algorithm directly with python
 2024-09-07 Update AES-256<br/>
 2024-09-08 Update SHA-256<br/>
 2024-09-09 Update RSA<br/>
+2024-09-10 Update ARIA<br/>
